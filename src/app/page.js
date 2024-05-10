@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <main style={{ height: height.current - (56 * 2) }} className="overflow-y-scroll snap-y snap-mandatory ">
+      <main style={{ height: `${height.current - (56 * 2)}px` }} className="overflow-y-scroll snap-y snap-mandatory ">
         <section style={{ height: window.innerHeight - (56 * 2) }} id="hero-section" className="flex flex-col items-center justify-center py-10 gap-4 bg-gradient-to-b from-cyan-950 to-black snap-start">
           <Image src="/logo.png" alt="logo" height={100} width={100} />
           <h1 className="text-4xl">ArtiFund</h1>
@@ -34,7 +34,7 @@ export default function Home() {
           <button type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={() => router.push('/feed')}>Get started</button>
         </section>
 
-        <section style={{ height: window.innerHeight - (56 * 2) }} id="card-section" className="snap-start p-4 flex flex-col items-center">
+        <section style={{ height: `${height.current - (56 * 2)}px` }} id="card-section" className="snap-start p-4 flex flex-col items-center">
           <h1 className="text-3xl">What is ArtiFund</h1>
           <div className="container flex">
             <div className="h-[300px]">
