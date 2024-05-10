@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <>
       <main style={{ height: `${height.current - (56 * 2)}px` }} className="overflow-y-scroll snap-y snap-mandatory ">
-        <section style={{ height: window.innerHeight - (56 * 2) }} id="hero-section" className="flex flex-col items-center justify-center py-10 gap-4 bg-gradient-to-b from-cyan-950 to-black snap-start">
+        <section style={{ height: `${height.current - (56 * 2)}px` }} id="hero-section" className="flex flex-col items-center justify-center py-10 gap-4 bg-gradient-to-b from-cyan-950 to-black snap-start">
           <Image src="/logo.png" alt="logo" height={100} width={100} />
           <h1 className="text-4xl">ArtiFund</h1>
           <p className="text-lg">Fund yourself or help your idiol artist</p>
