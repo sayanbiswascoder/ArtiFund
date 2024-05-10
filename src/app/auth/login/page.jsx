@@ -25,7 +25,7 @@ const Page = ({searchParams}) => {
 
   const [user, setUser] = useState('fan')
   return (
-    <div style={{ height: `${window?.innerHeight - (56 * 2)}px` }} className={`flex duration-500`}>
+    <div style={{ height: `${height.current})}px` }} className={`flex duration-500`}>
       <div style={{ borderRadius: '10em / 20em' }} className={` ${user == 'artist' ? 'translate-x-[70vw]' : 'translate-x-[-50%]'} z-10 rounded-l-none w-[60vw] h-full bg-cyan-800 ease-linear duration-500 flex items-center justify-${user == 'artist' ? 'start' : 'end'}`} onClick={() => setUser(user == 'artist' ? 'fan' : 'artist')}>
         <span className='w-[40%] text-2xl m-4 duration-500 font-bold text-center'>Continue as a {user == "artist" ? 'artist' : 'fan'}</span>
       </div>
