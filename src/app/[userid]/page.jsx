@@ -39,6 +39,8 @@ const Page = ({ params, searchParams }) => {
     const [settingsPage, setSettingsPage] = useState(false)
     const [makePayment, setMakePayment] = useState(false)
 
+    const [height, setHeight] = useState(0)
+
     const socialIcons = {
         facebook: <FaFacebook />,
         twitter: <FaTwitter />,
@@ -50,6 +52,23 @@ const Page = ({ params, searchParams }) => {
         telegram: <FaTelegram />,
         replit: <SiReplit />,
         link: <FaLink />
+    }
+
+    const fetchUserData = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_URL}/api/user/${params.userid}`).then(({ data, status }) => {
+            if (session && session.user.userid == data.userid) {
+                setOwner(true)
+            }
+            setUserData(data)
+            setName(data.name);
+            setUserId(data.userid);
+            setBio(data.bio)
+            setEmail(data.email);
+            setAvatar(data.Avatar);
+            setUserType(data.UserType)
+            setSocialLinks(data.socialLinks)
+            setWorkSample(data.workSample)
+        })
     }
 
     useEffect(() => {
@@ -84,6 +103,10 @@ const Page = ({ params, searchParams }) => {
             }
             toast.error(`You allredy have a acount registerd with ${searchParams.provider}`)
           }
+
+          window.onload = ()=> {
+            setHeight(window.innerHeight)
+          }
     }, [params.userid, searchParams.payment, searchParams.provider, session])
 
     const pay = () => {
@@ -97,21 +120,21 @@ const Page = ({ params, searchParams }) => {
     return (
         userId !== 404 ?
             <>
-                <div style={{minHeight: `${window.innerHeight - (56 * 2)}px`}} className={`overflow-y-scoll flex flex-col lg:flex-row lg:justify-between p-4`}>
-                    <div className='flex flex-col gap-0 lg:gap-4 overflow-y-scroll'>
-                        <div className='w-full flex items-start justify-center lg:justify-start lg:pr-4'>
+                <div style={{minHeight: `${height - (56 * 2)}px`}} className={`overflow-y-scoll flex flex-col md:flex-row md:justify-between p-4`}>
+                    <div className='flex flex-col gap-0 md:gap-4 overflow-y-scroll md:max-w-[30vw]'>
+                        <div className='w-full flex items-start justify-center md:justify-start md:pr-4'>
                             {owner && <IoMdSettings className='text-xl cursor-pointer focus:scale-50 hover:rotate-180 duration-200' onClick={()=> setSettingsPage(!settingsPage)} />}
                             <img className='rounded-full border border-spacing-5 border-white' src={Avatar} height={150} width={150} alt="Avatar" />
                         </div>
-                        <div className='w-full lg:w-auto flex flex-col items-center lg:items-start justify-center'>
+                        <div className='w-full md:w-auto flex flex-col items-center md:items-start justify-center'>
                             <h1 className='text-3xl'>{name}</h1>
                             <h1 className='text-md text-slate-400'>{'@' + userId}</h1>
                             <p className='mt-4'>{bio}</p>
                             
                         </div>
-                        <div className='w-full lg:w-auto flex flex-col items-center lg:items-start justify-center'>
+                        <div className='w-full md:w-auto flex flex-col items-center md:items-start justify-center'>
                             {
-                                socialLinks && <div className='flex flex-wrap gap-2 justify-center lg:justify-start m-2'>
+                                socialLinks && <div className='flex flex-wrap gap-2 justify-center md:justify-start m-2'>
                                     {
                                         Object.entries(socialLinks).map(elm=>{
                                             return <Link key={elm[0]} href={elm[1]} target='_blank' className='flex items-center gap-1 hover:text-cyan-600'>
@@ -134,17 +157,17 @@ const Page = ({ params, searchParams }) => {
 
                         </div>
                     </div>
-                    <div className='w-full lg:w-[70vw] flex flex-col-reverse lg:flex-row lg:justify-between'>
+                    <div className='w-full md:w-[70vw] flex flex-col-reverse md:flex-row md:justify-between'>
                         <div>
                                 <h1>Feed</h1>
                         </div>
-                        <div className='lg:max-w-[30vw] overflow-y-scroll'>
+                        <div className='md:max-w-[30vw] overflow-y-scroll'>
                             <Support userid={userId} userType={userType} />
                         </div>
                     </div>
                 </div>
                 {makePayment && <Payment paymentDetails={{userid: userId, name:name, email: email, Avatar: Avatar}} setMakePayment={setMakePayment} toast={toast} />}
-                {owner && settingsPage && userData && <Settings userData={userData} setSettingsPage={setSettingsPage} toast={toast} />}
+                {owner && settingsPage && userData && <Settings userData={userData} fetchUserData={fetchUserData} setUserData={setUserData} setSettingsPage={setSettingsPage} toast={toast} />}
                 <ToastContainer />
             </> : <div className='w-full p-8 flex flex-col items-center justify-center gap-4'>
                 <h1 className='text-4xl flex '><FaUserTimes className='mx-2' />User not found</h1>
