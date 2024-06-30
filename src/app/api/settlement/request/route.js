@@ -58,6 +58,7 @@ export async function POST(request) {
             return Response.json({ "message": "Email sent successfully" })
         }
     });
+    return Response.json({ "message": "Email sent successfully" })
 
 
 }

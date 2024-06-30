@@ -6,10 +6,12 @@ const SettlementModelSchema = new Schema(
         method: {type: String},
         Credential: {type: Object},
         amount:  {type: Number},
-        status: {type: String, required: true},
-    }
+        status: {type: String, required: true}
+    }, {timestamp: true}
 );
 
-const SettlementModel = mongoose.models.Settlements || model("Settlements", SettlementModelSchema)
+// console.log(mongoose.models)
+
+let SettlementModel = mongoose.models.Settlements || model("Settlements", SettlementModelSchema)
 export default SettlementModel;
 
