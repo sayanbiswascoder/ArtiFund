@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 
-export const config = {
-    api: {
-      bodyParser: true,
-    },
-  };
+// export const config = {
+//     api: {
+//       bodyParser: true,
+//     },
+//   };
 
 export async function POST(req, res) {
         const {amount} = req.body;
