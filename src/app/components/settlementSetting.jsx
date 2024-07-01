@@ -1,9 +1,20 @@
 import axios from 'axios'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useSession } from 'next-auth/react'
+import { getBalance } from '../action/action'
 
 const SettlementSetting = ({ userData, toast }) => {
   const {data : session} = useSession()
+  const [ballance, setBallance] = useState(0)
+
+  useEffect(() => {
+    const func = async() => {
+      const ballance = await getBalance(userData.userid)
+      setBallance(ballance)
+    }
+    func()
+  }, [userData.userid])
+  
 
   const settlementRequest = () => {
     axios.post(`${process.env.NEXT_PUBLIC_URL}/api/settlement/request`,{
@@ -31,7 +42,7 @@ const SettlementSetting = ({ userData, toast }) => {
       <p>For any kind of help related to sattlement or if you have&apos;nt recived your money within 2 working days contact us on the following email address: <a className='text-blue-700 hover:underline' href="mailto:sayanbiswas6073@gmail.com">sayanbiswas6073@gmail.com</a></p>
 
       <div className='w-full mt-4 flex items-center justify-between'>
-        <span>Account Ballance: {userData.ballance}</span>
+        <span>Account Ballance: {ballance}</span>
         <button type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={settlementRequest}>Request Settlement</button>
       </div>
     </div>

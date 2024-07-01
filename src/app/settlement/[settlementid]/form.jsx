@@ -20,10 +20,10 @@ const Form = ({settlementid}) => {
 
     const formData = new FormData(event.target);
     const submit = await settleFunc(formData)
-    if(submit){
+    if(submit.status){
       toast.success("Your Application is submited succesfully!")
     }else{
-      toast.error("Some error, Please try again latter!")
+      toast.error(submit.msg)
     }
   };
 

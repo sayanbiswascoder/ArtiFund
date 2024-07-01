@@ -31,32 +31,43 @@ export async function settleFunc(formData) {
         await connectDB()
         const id = formData.get('settlementid')
         const paymethod = formData.get('method')
-    
-        let paymentDetails = {}
-        if(paymethod == 'upi'){
-            paymentDetails = {
-                upi: formData.get('upiId')
+        const data = await SettlementModel.findById(id)
+        if(data.status == "pending"){
+            const createdAt = new Date(data.time)
+            const currentTime = new Date()
+            console.log(createdAt.getTime(), currentTime.getTime())
+            if((currentTime.getTime() - createdAt.getTime()) < (24 * 60 * 60 * 1000)){
+                let paymentDetails = {}
+                if(paymethod == 'upi'){
+                    paymentDetails = {
+                        upi: formData.get('upiId')
+                    }
+                }else if(paymethod == 'bank'){
+                    paymentDetails = {
+                        accountNo: formData.get('accountNo'),
+                        IFSC: formData.get('accountIFSC')
+                    }
+                }else if(paymethod == 'mobile'){
+                    paymentDetails = {
+                        mobile: formData.get('mobileNo')
+                    }
+                }
+                const amount = formData.get('amount')
+                const updatedData = await SettlementModel.findByIdAndUpdate(id, {
+                    status: "completed",
+                    amount: amount,
+                    method: paymethod,
+                    Credential: paymentDetails
+                });
+            
+                return {status: true}
+            }else{
+                return {status: false, msg: "The settlement request is expired"}
             }
-        }else if(paymethod == 'bank'){
-            paymentDetails = {
-                accountNo: formData.get('accountNo'),
-                IFSC: formData.get('accountIFSC')
-            }
-        }else if(paymethod == 'mobile'){
-            paymentDetails = {
-                mobile: formData.get('mobileNo')
-            }
+        }else{
+            return {status : false, msg: "Settlement request is already submited"}
         }
-        const amount = formData.get('amount')
-        const updatedData = await SettlementModel.findByIdAndUpdate(id, {
-            status: "completed",
-            amount: amount,
-            method: paymethod,
-            Credential: paymentDetails
-        });
-    
-        return true
     }catch{
-        return false
+        return {status: false, msg: "Some error, Please try again latter!"}
     }
 }

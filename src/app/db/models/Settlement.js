@@ -6,7 +6,8 @@ const SettlementModelSchema = new Schema(
         method: {type: String},
         Credential: {type: Object},
         amount:  {type: Number},
-        status: {type: String, required: true}
+        status: {type: String, required: true},
+        time: {type: Date, default: Date.now}
     }, {timestamp: true}
 );
 
