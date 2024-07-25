@@ -6,12 +6,15 @@ const UserModelSchema = new Schema(
         name : {type: String, required: true},
         bio : {type: String},
         email : {type: String, required: true},
-        Avatar: {type: String, required: true},
-        UserType: {type: String, required: true},
-        Provider: {type: String, required: true},
+        Avatar: {type: String},
+        UserType: {type:String},
+        Provider: {type: String},
         socialLinks: {type: Object},
         workSample: {type: Array},
-        ballance: {type: Number}
+        ballance: {type: Number},
+        planPrice: {type: Number, default: 0},
+        members: {type: Array, default: []},
+        following: {type: Array, default: []}
     }
 );
 

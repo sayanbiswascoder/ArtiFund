@@ -35,6 +35,7 @@ const Page = ({ params, searchParams }) => {
     const [userType, setUserType] = useState('')
     const [socialLinks, setSocialLinks] = useState(0)
     const [workSample, setWorkSample] = useState([])
+    const [planPrice, setplanPrice] = useState(0)
 
     const [settingsPage, setSettingsPage] = useState(false)
     const [makePayment, setMakePayment] = useState(false)
@@ -59,6 +60,7 @@ const Page = ({ params, searchParams }) => {
             if (session && session.user.userid == data.userid) {
                 setOwner(true)
             }
+            console.log(data)
             setUserData(data)
             setName(data.name);
             setUserId(data.userid);
@@ -68,6 +70,7 @@ const Page = ({ params, searchParams }) => {
             setUserType(data.UserType)
             setSocialLinks(data.socialLinks)
             setWorkSample(data.workSample)
+            setplanPrice(data.planPrice)
         })
     }
 
@@ -85,6 +88,7 @@ const Page = ({ params, searchParams }) => {
             setUserType(data.UserType)
             setSocialLinks(data.socialLinks)
             setWorkSample(data.workSample)
+            setplanPrice(data.planPrice)
         }).catch((e) => {
             if (e.response.data = "User not found") {
                 setUserId(404)
@@ -152,7 +156,7 @@ const Page = ({ params, searchParams }) => {
                                     })
                                 }
                             </div>
-                            {!owner && userType=="artist" && <button type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={pay}>Help {name.split(" ")[0]}</button>}
+                            {!owner && userType=="artist" && <button type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={pay}>Join for {planPrice}</button>}
                             {owner && <p onClick={() => { signOut(); router.push('/login'); }} className='text-red-600 hover:text-red-700 flex gap-1 items-center cursor-pointer'><FaSignOutAlt />Sign&nbsp;Out</p>}
 
                         </div>
@@ -166,7 +170,7 @@ const Page = ({ params, searchParams }) => {
                         </div>
                     </div>
                 </div>
-                {makePayment && <Payment paymentDetails={{userid: userId, name:name, email: email, Avatar: Avatar}} setMakePayment={setMakePayment} toast={toast} />}
+                {makePayment && <Payment paymentDetails={{userid: userId, name:name, email: email, Avatar: Avatar}} setMakePayment={setMakePayment} amount={planPrice} toast={toast} />}
                 {owner && settingsPage && userData && <Settings userData={userData} fetchUserData={fetchUserData} setUserData={setUserData} setSettingsPage={setSettingsPage} toast={toast} />}
                 <ToastContainer />
             </> : <div className='w-full p-8 flex flex-col items-center justify-center gap-4'>

@@ -9,7 +9,6 @@ const PaymentModelSchema = new Schema(
         toUserName : {type: String, required: true},
         fromUserAvatar: {type: String, required: true},
         toUserAvatar: {type: String, required: true},
-        massage: {type: String},
         amount: {type: Number, required: true},
         success : {type: String, required: true}
     }

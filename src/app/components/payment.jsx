@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Script from "next/script";
 import axios from 'axios'
+import { FcMoneyTransfer } from "react-icons/fc";
 // import Razorpay from "razorpay";
 import { useSession } from "next-auth/react";
 
-const Payment = ({ paymentDetails, setMakePayment, toast }) => {
-    const [massage, setMassage] = useState('');
-    const [amount, setAmount] = useState(1)
+const Payment = ({ paymentDetails, setMakePayment, amount, toast }) => {
     const { data: session } = useSession()
 
     const initiatePayment = () => {
@@ -17,7 +16,6 @@ const Payment = ({ paymentDetails, setMakePayment, toast }) => {
                 "fromEmail": session.user.email,
                 "fromUserName": session.user.name,
                 "toUserName": paymentDetails.name,
-                "massage": massage,
                 "fromUserAvatar": session.user.image,
                 "toUserAvatar": paymentDetails.Avatar,
                 "amount": amount
@@ -52,22 +50,11 @@ const Payment = ({ paymentDetails, setMakePayment, toast }) => {
             <div className='absolute top-0 left-0 h-[100vh] w-[100vw] backdrop-blur-sm bg-black/50 m-auto z-10'>
                 <div className='rounded-md w-[90%] max-w-[500px] bg-cyan-700 m-auto p-4 flex flex-col items-center justify-center shadow-md mt-[50vh] -translate-y-[50%]'>
                     <h2 className='text-2xl font-bold'>Make Payment</h2>
-                    <div className='w-full'>
-                        <label htmlFor="message">Blog:</label>
-                        <textarea name="message" cols="20" className='w-full bg-cyan-900 rounded resize-none outline-none p-2' rows="5" value={massage} onChange={(e) => setMassage(e.target.value)}></textarea>
-                        <label htmlFor="amount">Title:</label>
-                        <input type="number" name="amount" className='text-xl w-full my-2 bg-cyan-900 outline-none p-2' value={amount} onChange={(e) => {
-                            setAmount(e.target.value)
-                            if (e.target.value < 1) {
-                                setAmount(1)
-                                toast.error("The amount must be minimum 1 rupees!")
-                            }
-                        }} />
-                        <div className='w-full flex justify-evenly'>
-                            <button className='bg-red-500 px-4 py-2 rounded text-white' onClick={() => setMakePayment(false)}>Close</button>
-                            <button className='bg-cyan-500 px-4 py-2 rounded text-white' onClick={initiatePayment}>Pay</button>
+                    <FcMoneyTransfer className="text-[150px]" />
+                    <div className='w-full flex justify-evenly'>
+                            <button className='bg-red-500 px-4 py-2 rounded text-white' onClick={() => setMakePayment(false)}>Calcle</button>
+                            <button className='bg-cyan-500 px-4 py-2 rounded text-white' onClick={initiatePayment}>Make payment of {amount}</button>
                         </div>
-                    </div>
                 </div>
             </div>
         </>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/app/db/conectDb";
 import PaymentModel from "@/app/db/models/Payments";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
+import UserModel from "@/app/db/models/User";
 
 export async function POST(request){
     await connectDB();
@@ -17,6 +18,18 @@ export async function POST(request){
             await PaymentModel.findOneAndUpdate({oid: orderFromDb.oid}, {
                 success: "completed"
             })
+            const fromUser = await UserModel.findOne({userid: orderFromDb.fromUser})
+            await UserModel.findOneAndUpdate({userid: orderFromDb.fromUser}, {
+                following: [...fromUser.following, orderFromDb.toUser]
+            })
+
+            
+            const toUser = await UserModel.findOne({userid: orderFromDb.toUser})
+            await UserModel.findOneAndUpdate({userid: orderFromDb.toUser}, {
+                members: [...toUser.members, orderFromDb.fromUser]
+            })
+
+
             return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/${orderFromDb.toUser}?payment=success`)
         }else{
             await PaymentModel.findOneAndUpdate({oid: orderFromDb.oid}, {

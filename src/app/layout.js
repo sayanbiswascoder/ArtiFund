@@ -18,7 +18,7 @@ export default function RootLayout({ children, session }) {
         <SessionWrapper session={session}>
           <Nav />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </SessionWrapper>
       </body>
     </html>

@@ -5,7 +5,6 @@ import UserModel from "../../../db/models/User";
 
 export async function POST(request){
     const userForm = await request.json();
-    console.log(userForm)
     await connectDB()
     var instance = new Razorpay({ key_id: process.env.RAZORPAY_ID , key_secret: process.env.RAZORPAY_SECRET })
 
@@ -14,7 +13,6 @@ export async function POST(request){
         currency: "INR",
     })
 
-    console.log(instanceRes)
 
     let payment = await PaymentModel.create({
         oid: instanceRes.id,
@@ -24,7 +22,6 @@ export async function POST(request){
         toUserName : userForm.toUserName,
         fromUserAvatar: userForm.fromUserAvatar,
         toUserAvatar: userForm.toUserAvatar,
-        massage: userForm.massage,
         amount: userForm.amount,
         success : "panding"
     })

@@ -39,7 +39,7 @@ const Support = ({userid, userType}) => {
         {
             supporters?.length > 0 && <div style={{maxHeight: supportersDivExpanded ? '350px' : '50px'}} className={` duration-500 max-h-[350px]`}>
               <div className='h-[50px] flex items-center w-full justify-between'>
-                <h1 className='text-2xl font-bold'>Recent Supporters</h1>
+                <h1 className='text-2xl font-bold'>Members</h1>
                 <IoIosArrowDown style={{rotate: supportersDivExpanded ? '180deg' : '0deg'}} className='fonst-bold text-3xl duration-300' onClick={()=> setSupportersDivExpanded(!supportersDivExpanded)} />
               </div>
               <div style={{maxHeight: supportersDivExpanded ? '300px' : '0px'}} className={`${supportersDivExpanded ? 'overflow-y-scroll' : 'overflow-hidden'}`}>
@@ -51,7 +51,6 @@ const Support = ({userid, userType}) => {
                           </Link>
                             <div className='flex flex-col'>
                               <span>{elm.fromUserName}</span>
-                              <span>{elm.massage}</span>
                             </div>
                         </div>
                     })
@@ -62,7 +61,7 @@ const Support = ({userid, userType}) => {
         {
             supports?.length > 0 && <div style={{maxHeight: supportsDivExpanded ? '350px' : '50px'}} className={` duration-500 max-h-[350px]`}>
                 <div className='h-[50px] flex items-center w-full justify-between top-0'>
-                  <h1 className='text-2xl font-bold'>Recent Supports</h1>
+                  <h1 className='text-2xl font-bold'>Following</h1>
                   <IoIosArrowDown style={{rotate: supportsDivExpanded ? '180deg' : '0deg'}} className='fonst-bold text-3xl duration-300' onClick={()=> setSupportsDivExpanded(!supportsDivExpanded)} />
                 </div>
                 <div style={{maxHeight: supportsDivExpanded ? '300px' : '0px'}} className={`${supportsDivExpanded ? 'overflow-y-scroll' : 'overflow-hidden'}`}>
@@ -74,7 +73,6 @@ const Support = ({userid, userType}) => {
                           </Link>
                             <div className='flex flex-col'>
                               <span>{elm.toUserName}</span>
-                              <span>{elm.massage}</span>
                             </div>
                         </div>
                     })

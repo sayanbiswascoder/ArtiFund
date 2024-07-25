@@ -35,7 +35,6 @@ export async function settleFunc(formData) {
         if(data.status == "pending"){
             const createdAt = new Date(data.time)
             const currentTime = new Date()
-            console.log(createdAt.getTime(), currentTime.getTime())
             if((currentTime.getTime() - createdAt.getTime()) < (24 * 60 * 60 * 1000)){
                 let paymentDetails = {}
                 if(paymethod == 'upi'){
